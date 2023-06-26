@@ -15,12 +15,10 @@ public class DBConnection {
 
         // JDBC 드라이버 로드
         try {
-//            Server server = Server.createTcpServer("-tcp", "-tcpAllowOthers", "-ifNotExists").start();
             Class.forName("org.h2.Driver");
             Connection connection = DriverManager.getConnection(url, username, password);
             System.out.println("디버그 : DB연결 성공");
 
-//            server.stop();
             return connection;
         } catch (Exception e) {
             e.printStackTrace();
