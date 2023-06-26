@@ -42,7 +42,27 @@ public class BaseballManageApplication {
 
 
 
+    public static void findUri(Set<Class> classes, String uri) throws Exception {
+        boolean isFind = false;
+        for (Class cls : classes) {
+            if (cls.isAnnotationPresent(Controller.class)) {
+                Object instance = cls.newInstance();
+                Method[] methods = cls.getDeclaredMethods();
 
+                for (Method mt : methods) {
+                    Annotation anno = mt.getDeclaredAnnotation(RequestMapping.class);
+                    RequestMapping rm = (RequestMapping) anno;
+                    if (rm.uri().equals(uri)) {
+                        isFind = true;
+                        mt.invoke(instance);
+                    }
+                }
+            }
+        }
+        if(isFind == false){
+            System.out.println("404 Not Found");
+        }
+    }
 
     public static Set<Class> componentScan(String pkg) throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
