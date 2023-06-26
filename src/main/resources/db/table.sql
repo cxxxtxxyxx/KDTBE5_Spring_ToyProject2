@@ -32,21 +32,22 @@ CREATE TABLE IF NOT EXISTS `team` (
 -- Table `player`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `player` (
-   `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
-   `team_id` INT UNSIGNED NOT NULL,
-   `name` VARCHAR(20) NOT NULL,
-    `position` VARCHAR(45) NOT NULL,
-    `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (`id`),
-    UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
-    INDEX `fk_team_player_idx` (`team_id` ASC) INVISIBLE,
-    UNIQUE INDEX `uk_team_id_position_idx` (`team_id` ASC, `position` ASC) INVISIBLE,
-    UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
-    CONSTRAINT `fk_team_player_idx`
-    FOREIGN KEY (`team_id`)
-    REFERENCES `team` (`id`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+       `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+       `team_id` INT UNSIGNED NOT NULL,
+       `name` VARCHAR(20) NOT NULL,
+        `position` VARCHAR(45) NOT NULL,
+        `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+        UNIQUE INDEX `id_UNIQUE` (`id` ASC) VISIBLE,
+        INDEX `fk_team_player_idx` (`team_id` ASC) INVISIBLE,
+        UNIQUE INDEX `uk_team_id_position_idx` (`team_id` ASC, `position` ASC) INVISIBLE,
+        UNIQUE INDEX `name_UNIQUE` (`name` ASC) VISIBLE,
+        CONSTRAINT `fk_team_player_idx`
+        FOREIGN KEY (`team_id`)
+        REFERENCES `team` (`id`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION
+    )
     ENGINE = InnoDB;
 
 
