@@ -2,11 +2,14 @@ package controller;
 
 import core.Controller;
 import core.RequestMapping;
+import model.player.Player;
 import model.player.PlayerDao;
+import model.player.PlayerFindResponseDto;
 import model.player.Position;
 import model.team.Team;
 import model.team.TeamDao;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -38,6 +41,31 @@ public class PlayerController {
 
         System.out.println("올바르지 않은 요청입니다.");
         return false;
+    }
+
+    @RequestMapping(uri = "선수목록")
+    public void findAll(Map<String, String> paramMap) {
+        if (paramMap == null) {
+            System.out.println("PlayerController.findAll, 쿼리 파라미터를 입력해주세요");
+            return;
+        }
+
+        if (!paramMap.containsKey("teamId")) {
+            System.out.println("PlayerController.findAll, teamId 쿼리 파라미터를 입력해주세요");
+            return;
+        }
+
+
+        try {
+            int teamId = Integer.parseInt(paramMap.get("teamId"));
+            List<PlayerFindResponseDto> playerList = playerDao.findAll(teamId);
+            System.out.println("playerList = " + playerList);
+        } catch (RuntimeException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
+
+
     }
 
 }

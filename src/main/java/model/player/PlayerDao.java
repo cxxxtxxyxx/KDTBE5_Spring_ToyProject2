@@ -1,10 +1,11 @@
 package model.player;
 
 import db.DBConnection;
+import model.stadium.Stadium;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerDao {
     private Connection connection = DBConnection.getConnection();
@@ -23,5 +24,40 @@ public class PlayerDao {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+
+    public List<PlayerFindResponseDto> findAll(int teamId) {
+        List<PlayerFindResponseDto> playerList = new ArrayList<>();
+        String query = "select id, name, position, created_at from player where team_id = ?";
+
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, teamId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    String name = resultSet.getString("name");
+                    Position position = Position.findByName(resultSet.getString("position"));
+                    Timestamp createdAt = resultSet.getTimestamp("created_at");
+
+                    PlayerFindResponseDto result = PlayerFindResponseDto.builder()
+                            .id(id)
+                            .name(name)
+                            .position(position)
+                            .createdAt(createdAt)
+                            .build();
+
+                    playerList.add(result);
+                }
+
+                return playerList;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
     }
 }
