@@ -14,7 +14,7 @@ public class DBConnection {
 
     private static Connection getInstance() {
         // MySQL 연결 정보
-        String url = "jdbc:h2:tcp://localhost:9092/~/mfa;MODE=MYSQL";
+        String url = "jdbc:h2:~/mfa;MODE=MYSQL";
         String username = "sa";
         String password = "";
 

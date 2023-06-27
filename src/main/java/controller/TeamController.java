@@ -4,6 +4,7 @@ import core.Controller;
 import core.RequestMapping;
 import model.stadium.Stadium;
 import model.stadium.StadiumDao;
+import model.team.PositionResponseDto;
 import model.team.TeamDao;
 import model.team.TeamResponseDto;
 
@@ -43,4 +44,15 @@ public class TeamController {
         System.out.println("responseDtoList = " + responseDtoList);
         return responseDtoList;
     }
+
+    @RequestMapping(uri = "포지션별목록")
+    public void findListByPosition(){
+        List<String> teamNames = teamDao.findAll();
+
+        List<PositionResponseDto> allTeamJoinPlayerByPosition = teamDao.findAllTeamJoinPlayerByPosition(teamNames);
+        for (PositionResponseDto positionResponseDto : allTeamJoinPlayerByPosition) {
+            System.out.println("positionResponseDto = " + positionResponseDto);
+        }
+    }
+
 }
