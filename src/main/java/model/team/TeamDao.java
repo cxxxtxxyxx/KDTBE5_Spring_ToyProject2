@@ -1,10 +1,13 @@
 package model.team;
 
 import db.DBConnection;
+import model.player.Position;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TeamDao {
 
@@ -88,5 +91,66 @@ public class TeamDao {
             System.out.println(e.getMessage());
             return null;
         }
+    }
+
+    public List<String> findAll() {
+        List<String> teamNames = new ArrayList<>();
+        String query = "select distinct name from team";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    String name = resultSet.getString("name");
+                    teamNames.add(name);
+                }
+                return teamNames;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+    }
+
+    public List<PositionResponseDto> findAllTeamJoinPlayerByPosition(List<String> teamNames) {
+        List<PositionResponseDto> teamResponseDtoList = new ArrayList<>();
+        StringBuilder query = new StringBuilder("select ");
+
+        for (String team : teamNames) {
+            query.append("MAX(CASE WHEN a.team_name = '" + team + "' THEN a.player_name ELSE '-' END) as " + team + ",");
+        }
+
+        query.append("a.position from " +
+                "(select p.name as player_name, p.position, t.name as team_name from team t join player p on p.team_id = t.id)" +
+                " a group by a.position");
+
+        try (Statement statement = connection.createStatement()) {
+            try (ResultSet resultSet = statement.executeQuery(query.toString())) {
+                while (resultSet.next()) {
+                    Position position = Position.findByName(resultSet.getString("position"));
+                    Map<String, String> teamTable = new HashMap<>();
+
+                    for (String teamName : teamNames) {
+                        String playerName = resultSet.getString(teamName);
+                        teamTable.put(teamName, playerName);
+                    }
+
+                    PositionResponseDto positionResponseDto = PositionResponseDto.builder()
+                            .position(position)
+                            .teamTable(teamTable)
+                            .build();
+
+                    teamResponseDtoList.add(positionResponseDto);
+                }
+
+                return teamResponseDtoList;
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
     }
 }
