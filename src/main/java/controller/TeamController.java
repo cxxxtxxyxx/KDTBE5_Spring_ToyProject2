@@ -29,7 +29,7 @@ public class TeamController {
             return false;
         }
 
-        if (paramMap.containsKey("stadium_id") || paramMap.containsKey("name")) {
+        if (paramMap.containsKey("stadium_id") && paramMap.containsKey("name")) {
             return teamDao.add(Integer.parseInt(paramMap.get("stadium_id")), paramMap.get("name"));
         }
 
