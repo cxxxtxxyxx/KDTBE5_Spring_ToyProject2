@@ -25,6 +25,35 @@ public class StadiumDao {
         }
     }
 
+    public Stadium findById(int stadiumId){
+        String query = "select * from stadium where id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, stadiumId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    String name = resultSet.getString("name");
+                    Timestamp createdAt = resultSet.getTimestamp("created_at");
+
+                    System.out.println("조회 성공");
+                    return Stadium.builder()
+                            .id(id)
+                            .name(name)
+                            .createdAt(createdAt)
+                            .build();
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+        return null;
+    }
+
     public List<Stadium> findAll() {
         List<Stadium> stadiumList = new ArrayList<>();
         String query = "select * from stadium";
