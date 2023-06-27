@@ -9,6 +9,7 @@ import java.util.List;
 
 @Getter
 public class StadiumDao {
+    // TODO 싱글톤 객체로 만들기
     private Connection connection = DBConnection.getConnection();
 
     public boolean add(String name) {

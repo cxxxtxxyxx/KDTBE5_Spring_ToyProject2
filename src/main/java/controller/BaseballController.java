@@ -11,6 +11,7 @@ import java.util.Map;
 @Controller
 public class BaseballController {
 
+    // TODO 싱글톤 객체로 만들기
     private final StadiumDao stadiumDao = new StadiumDao();
 
     @RequestMapping(uri = "야구장등록")

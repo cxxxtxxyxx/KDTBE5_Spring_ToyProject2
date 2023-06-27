@@ -5,7 +5,9 @@ import core.RequestMapping;
 import model.stadium.Stadium;
 import model.stadium.StadiumDao;
 import model.team.TeamDao;
+import model.team.TeamResponseDto;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -23,7 +25,7 @@ public class TeamController {
 
         Stadium stadium = stadiumDao.findById(Integer.parseInt(paramMap.get("stadium_id")));
 
-        if (stadium == null){
+        if (stadium == null) {
             return false;
         }
 
@@ -33,5 +35,12 @@ public class TeamController {
 
         System.out.println("올바르지 않은 요청입니다.");
         return false;
+    }
+
+    @RequestMapping(uri = "팀목록")
+    public List<TeamResponseDto> findAll() {
+        List<TeamResponseDto> responseDtoList = teamDao.findAllJoinStadium();
+        System.out.println("responseDtoList = " + responseDtoList);
+        return responseDtoList;
     }
 }
