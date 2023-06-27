@@ -14,7 +14,7 @@ public class DBConnection {
 
     private static Connection getInstance() {
         // MySQL 연결 정보
-        String url = "jdbc:h2:~/test;MODE=MYSQL";
+        String url = "jdbc:h2:tcp://localhost:9092/~/mfa;MODE=MYSQL";
         String username = "sa";
         String password = "";
 
@@ -73,6 +73,9 @@ public class DBConnection {
         insertPlayerData = "insert into player (team_id, name, position) values (2, '배영수', '2루수')";
         statement.executeUpdate(insertPlayerData);
 
+        statement = connection.createStatement();
+        String insertOutPlayerData = "insert into out_player (player_id, reason) values('1', '도박')";
+        statement.executeUpdate(insertOutPlayerData);
     }
 
     private static void createTable(Connection connection) throws SQLException {
@@ -110,7 +113,7 @@ public class DBConnection {
         statement = connection.createStatement();
         String createPlayerTable = "CREATE TABLE IF NOT EXISTS `player` (\n" +
                 "       `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,\n" +
-                "       `team_id` INT UNSIGNED NOT NULL,\n" +
+                "       `team_id` INT UNSIGNED,\n" +
                 "       `name` VARCHAR(20) NOT NULL,\n" +
                 "        `position` VARCHAR(45) NOT NULL,\n" +
                 "        `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +

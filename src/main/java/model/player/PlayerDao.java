@@ -10,6 +10,7 @@ import java.util.List;
 public class PlayerDao {
     private Connection connection = DBConnection.getConnection();
 
+
     public boolean add(int teamId, String name, Position position) {
         String query = "insert into player (team_id, name, position) values (?, ?, ?)";
 
@@ -57,6 +58,21 @@ public class PlayerDao {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
+        }
+
+    }
+
+    public boolean updateStatus(int playerId) {
+        String query = "update player set team_id = null where id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, playerId);
+            statement.executeUpdate();
+            System.out.println("Player Update 성공");
+            return true;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return false;
         }
 
     }
