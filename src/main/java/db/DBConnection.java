@@ -35,6 +35,31 @@ public class DBConnection {
         dropTable(connection);
         // stadium 테이블 생성
         createTable(connection);
+        initData(connection);
+
+    }
+
+    private static void initData(Connection connection) throws SQLException {
+        Statement statement = connection.createStatement();
+        String insertStadiumData = "insert into stadium (name) values('잠실야구장')";
+        statement.executeUpdate(insertStadiumData);
+
+        statement = connection.createStatement();
+        insertStadiumData = "insert into stadium (name) values('부산야구장')";
+        statement.executeUpdate(insertStadiumData);
+
+
+        statement = connection.createStatement();
+        String insertTeamData = "insert into team (stadium_id, name) values('1', '두산')";
+        statement.executeUpdate(insertTeamData);
+
+        statement = connection.createStatement();
+        insertTeamData = "insert into team (stadium_id, name) values('1', '엘지')";
+        statement.executeUpdate(insertTeamData);
+
+//        statement = connection.createStatement();
+//        String insertPlayerData = "insert into player (team_id, name, position) values (1, '이대호', '1루수')";
+//        statement.executeUpdate(insertPlayerData);
 
     }
 
