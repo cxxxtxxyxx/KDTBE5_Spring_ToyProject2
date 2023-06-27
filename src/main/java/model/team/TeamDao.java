@@ -10,7 +10,6 @@ public class TeamDao {
 
     private Connection connection = DBConnection.getConnection();
 
-
     // TODO stadiumDao.findById로 Stadium이 존재할 때만 로직 실행
     // 없으면 예외 처리
     public boolean add(int stadiumId, String name) {
@@ -26,6 +25,37 @@ public class TeamDao {
             System.out.println(e.getMessage());
             return false;
         }
+    }
+
+    public Team findById(int teamId) {
+        String query = "select * from team where id = ?";
+
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setInt(1, teamId);
+
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    int id = resultSet.getInt("id");
+                    int stadiumId = resultSet.getInt("stadium_id");
+                    String name = resultSet.getString("name");
+                    Timestamp createdAt = resultSet.getTimestamp("created_at");
+
+                    System.out.println("팀 조회 성공");
+                    return Team.builder()
+                            .id(id)
+                            .name(name)
+                            .stadiumId(stadiumId)
+                            .createdAt(createdAt)
+                            .build();
+                }
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+
+        return null;
     }
 
     public List<TeamResponseDto> findAllJoinStadium() {
