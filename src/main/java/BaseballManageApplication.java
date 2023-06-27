@@ -29,10 +29,20 @@ public class BaseballManageApplication {
                 String queryParamURL = parsed[1];
 
                 Map<String, String> queryParams = getQueryParams(queryParamURL);
-                findUri(classes, uri, queryParams);
+
+                try {
+                    findUri(classes, uri, queryParams);
+                } catch (RuntimeException e) {
+                    System.out.println("올바르지 않은 URL입니다.");
+                }
 
             } else {
-                findUri(classes, url);
+                try {
+                    findUri(classes, url);
+
+                } catch (RuntimeException e) {
+                    System.out.println("올바르지 않은 URL입니다.");
+                }
             }
 
 
