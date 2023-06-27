@@ -14,7 +14,7 @@ public class BaseballManageApplication {
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
-        Connection connection = DBConnection.getInstance();
+        Connection connection = DBConnection.getConnection();
 
         Set<Class<Object>> classes = componentScan("./controller");
 

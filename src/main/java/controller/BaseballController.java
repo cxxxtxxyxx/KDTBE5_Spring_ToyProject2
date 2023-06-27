@@ -2,8 +2,10 @@ package controller;
 
 import core.Controller;
 import core.RequestMapping;
+import model.stadium.Stadium;
 import model.stadium.StadiumDao;
 
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -30,9 +32,11 @@ public class BaseballController {
 
     }
 
-//    @RequestMapping(uri = "야구장목록")
-//    public List<Stadium> stadiumList(){
-////        return stadiumDao.getList();
-//        return false;
-//    }
+    @RequestMapping(uri = "야구장목록")
+    public List<Stadium> stadiumList(){
+        System.out.println("BaseballController.stadiumList");
+        List<Stadium> all = stadiumDao.findAll();
+        System.out.println("all = " + all);
+        return all;
+    }
 }
