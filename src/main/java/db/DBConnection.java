@@ -54,12 +54,24 @@ public class DBConnection {
         statement.executeUpdate(insertTeamData);
 
         statement = connection.createStatement();
-        insertTeamData = "insert into team (stadium_id, name) values('1', '엘지')";
+        insertTeamData = "insert into team (stadium_id, name) values('2', '엘지')";
         statement.executeUpdate(insertTeamData);
 
-//        statement = connection.createStatement();
-//        String insertPlayerData = "insert into player (team_id, name, position) values (1, '이대호', '1루수')";
-//        statement.executeUpdate(insertPlayerData);
+        statement = connection.createStatement();
+        String insertPlayerData = "insert into player (team_id, name, position) values (1, '이대호', '1루수')";
+        statement.executeUpdate(insertPlayerData);
+
+        statement = connection.createStatement();
+        insertPlayerData = "insert into player (team_id, name, position) values (1, '양의지', '2루수')";
+        statement.executeUpdate(insertPlayerData);
+
+        statement = connection.createStatement();
+        insertPlayerData = "insert into player (team_id, name, position) values (2, '양현종', '1루수')";
+        statement.executeUpdate(insertPlayerData);
+
+        statement = connection.createStatement();
+        insertPlayerData = "insert into player (team_id, name, position) values (2, '배영수', '2루수')";
+        statement.executeUpdate(insertPlayerData);
 
     }
 
