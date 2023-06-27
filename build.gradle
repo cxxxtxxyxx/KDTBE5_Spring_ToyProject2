@@ -15,13 +15,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
 }
 
-//task runH2Database(type: JavaExec) {
-//    classpath = sourceSets.main.runtimeClasspath
-//    mainClass.set('org.h2.tools.Server')
-//    args = ['-web', '-webAllowOthers', '-tcp', '-tcpAllowOthers', '-ifNotExists']
-//}
-//
-//task run(dependsOn: 'runH2Database')
 
 test {
     useJUnitPlatform()
