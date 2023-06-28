@@ -3,7 +3,8 @@ package controller;
 import core.Controller;
 import core.RequestMapping;
 import model.outplayer.OutPlayerResponseDto;
-import model.player.PlayerDao;
+import service.OutPlayerService;
+import util.QueryExecutionStatus;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,11 +12,17 @@ import java.util.Map;
 
 @Controller
 public class OutPlayerController {
-    private final OutPlayerDao outPlayerDao = new OutPlayerDao();
-    private final PlayerDao playerDao = new PlayerDao();
 
-    private Connection connection = DBConnection.getConnection();
+    private static final OutPlayerController outplayerController = new OutPlayerController();
 
+    private final OutPlayerService outPlayerService = OutPlayerService.getInstance();
+
+    public static OutPlayerController getInstance() {
+        return outplayerController;
+    }
+
+    private OutPlayerController() {
+    }
 
     /**
      * 1. 선수 퇴출 목록
@@ -32,17 +39,20 @@ public class OutPlayerController {
      */
     @RequestMapping(uri = "퇴출목록")
     public void findAll() {
-        List<OutPlayerResponseDto> joinPlayerResult = outPlayerDao.findAllJoinPlayer();
+        List<OutPlayerResponseDto> joinPlayerResult = outPlayerService.findAllOutPlayer();
+        
+        // 데이터 출력
         for (OutPlayerResponseDto outPlayerResponseDto : joinPlayerResult) {
             System.out.println("outPlayerResponseDto = " + outPlayerResponseDto);
         }
     }
-    
+
+    // TODO sout 에러 메시지를 상수로 분리하기
     @RequestMapping(uri = "퇴출등록")
     public void addOutPlayer(Map<String, String> paramMap) throws SQLException {
         if (paramMap == null) {
             System.out.println("올바르지 않은 요청입니다.");
-            return false;
+            return;
         }
 
         if (!(paramMap.containsKey("playerId") && paramMap.containsKey("reason"))) {

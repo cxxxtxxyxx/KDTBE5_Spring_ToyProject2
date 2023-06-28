@@ -16,8 +16,17 @@ import java.util.Map;
 
 @Controller
 public class PlayerController {
+
+    private static final PlayerController playerController = new PlayerController();
+
     private final PlayerService playerService = PlayerService.getInstance();
 
+    public static PlayerController getInstance() {
+        return playerController;
+    }
+
+    private PlayerController() {
+    }
 
     @RequestMapping(uri = "선수등록")
     public void addPlayer(Map<String, String> paramMap) {
@@ -28,7 +37,7 @@ public class PlayerController {
         }
 
         // TODO Try Catch로 에러 처리
-        int teamId = Integer.parseInt(paramMap.get("team_id"));
+        int teamId = Integer.parseInt(paramMap.get("teamId"));
 
         Team team = playerService.findByTeamId(teamId);
 
@@ -37,7 +46,7 @@ public class PlayerController {
             return;
         }
 
-        if (!paramMap.containsKey("team_id") || !paramMap.containsKey("name") || !paramMap.containsKey("position")) {
+        if (!paramMap.containsKey("teamId") || !paramMap.containsKey("name") || !paramMap.containsKey("position")) {
             System.out.println("올바르지 않은 쿼리파라미터 입니다.");
         }
 

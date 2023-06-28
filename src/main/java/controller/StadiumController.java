@@ -12,8 +12,16 @@ import java.util.Map;
 @Controller
 public class StadiumController {
 
-    // TODO 싱글톤 객체로 만들기
     private final StadiumService stadiumService = StadiumService.getInstance();
+
+    private static final StadiumController stadiumController = new StadiumController();
+
+    public static StadiumController getInstance(){
+        return stadiumController;
+    }
+
+    private StadiumController() {
+    }
 
     @RequestMapping(uri = "야구장등록")
     public void addStadium(Map<String, String> paramMap) {

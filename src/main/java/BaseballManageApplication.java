@@ -41,6 +41,7 @@ public class BaseballManageApplication {
                     findUri(classes, url);
 
                 } catch (RuntimeException e) {
+                    System.out.println(e.getMessage());
                     System.out.println("올바르지 않은 URL입니다.");
                 }
             }
@@ -81,18 +82,22 @@ public class BaseballManageApplication {
         boolean isFind = false;
         for (Class<Object> cls : classes) {
             if (cls.isAnnotationPresent(Controller.class)) {
-                Object instance = cls.newInstance();
-//                Method getInstance = cls.getMethod("getInstance");
-//                Object instance = getInstance.invoke(null);
+//                Object instance = cls.newInstance();
+                Method getInstance = cls.getMethod("getInstance");
+                Object instance = getInstance.invoke(null);
                 System.out.println("instance = " + instance);
                 Method[] methods = cls.getDeclaredMethods();
 
                 for (Method mt : methods) {
                     RequestMapping anno = mt.getDeclaredAnnotation(RequestMapping.class);
+                    if (anno == null) {
+                        continue;
+                    }
                     /*
                     anno.uri() => 야구장등록
                     uri => 야구장등록?name=잠실야구징
                      */
+                    System.out.println("param anno.uri" + anno.uri());
                     if (uri.contains(anno.uri())) {
 //                    if (anno.uri().equals(uri)) {
                         isFind = true;
@@ -109,8 +114,11 @@ public class BaseballManageApplication {
     public static void findUri(Set<Class<Object>> classes, String uri) throws Exception {
         boolean isFind = false;
         for (Class<Object> cls : classes) {
+            System.out.println("classes = " + classes);
+            System.out.println("cls = " + cls);
             if (cls.isAnnotationPresent(Controller.class)) {
-                Object instance = cls.newInstance();
+                Method getInstance = cls.getMethod("getInstance");
+                Object instance = getInstance.invoke(null);
                 System.out.println("instance = " + instance);
                 Method[] methods = cls.getDeclaredMethods();
 
@@ -120,8 +128,13 @@ public class BaseballManageApplication {
                     anno.uri() => 야구장등록
                     uri => 야구장등록?name=잠실야구징
                      */
-                    if (uri.contains(anno.uri())) {
-//                    if (anno.uri().equals(uri)) {
+                    if (anno == null) {
+                        continue;
+                    }
+                    System.out.println("anno.uri" + anno.uri());
+//                    if (uri.contains(anno.uri())) {
+                    if (anno.uri().equals(uri)) {
+                        System.out.println("여기가 타나?");
                         isFind = true;
                         mt.invoke(instance);
                     }
