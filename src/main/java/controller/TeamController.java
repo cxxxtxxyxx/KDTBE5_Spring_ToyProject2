@@ -7,14 +7,16 @@ import model.stadium.StadiumDao;
 import model.team.PositionResponseDto;
 import model.team.TeamDao;
 import model.team.TeamResponseDto;
+import service.TeamService;
+import util.QueryExecutionStatus;
 
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class TeamController {
-    private final StadiumDao stadiumDao = new StadiumDao();
-    private final TeamDao teamDao = new TeamDao();
+
+    private final TeamService teamService = TeamService.getInstance();
 
     @RequestMapping(uri = "팀등록")
     public boolean addTeam(Map<String, String> paramMap) {
@@ -39,20 +41,25 @@ public class TeamController {
     }
 
     @RequestMapping(uri = "팀목록")
-    public List<TeamResponseDto> findAll() {
-        List<TeamResponseDto> responseDtoList = teamDao.findAllJoinStadium();
-        System.out.println("responseDtoList = " + responseDtoList);
-        return responseDtoList;
+    public void findAll() {
+        List<TeamResponseDto> result = teamService.findAllTeam();
+        for (TeamResponseDto teamResponseDto : result) {
+            System.out.println("teamResponseDto = " + teamResponseDto);
+        }
     }
 
     @RequestMapping(uri = "포지션별목록")
     public void findListByPosition(){
-        List<String> teamNames = teamDao.findAll();
 
-        List<PositionResponseDto> allTeamJoinPlayerByPosition = teamDao.findAllTeamJoinPlayerByPosition(teamNames);
-        for (PositionResponseDto positionResponseDto : allTeamJoinPlayerByPosition) {
+        List<String> teamNames = teamService.findByTeamNames();
+
+        if (teamNames.isEmpty())
+            return;
+
+        List<PositionResponseDto> result = teamService.findAllTeamByPosition(teamNames);
+
+        for (PositionResponseDto positionResponseDto : result) {
             System.out.println("positionResponseDto = " + positionResponseDto);
         }
     }
-
 }

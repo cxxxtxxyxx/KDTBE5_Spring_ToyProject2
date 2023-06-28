@@ -2,13 +2,9 @@ package controller;
 
 import core.Controller;
 import core.RequestMapping;
-import db.DBConnection;
-import model.outplayer.OutPlayer;
-import model.outplayer.OutPlayerDao;
 import model.outplayer.OutPlayerResponseDto;
 import model.player.PlayerDao;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -43,33 +39,24 @@ public class OutPlayerController {
     }
     
     @RequestMapping(uri = "퇴출등록")
-    public boolean addOutPlayer(Map<String, String> paramMap) throws SQLException {
-        connection.setAutoCommit(false);
-        boolean isUpdateSuccess = false;
-
+    public void addOutPlayer(Map<String, String> paramMap) throws SQLException {
         if (paramMap == null) {
             System.out.println("올바르지 않은 요청입니다.");
             return false;
         }
 
-        if (paramMap.containsKey("player_id") && paramMap.containsKey("reason")) {
-            boolean isSuccessInsert = outPlayerDao.add(Integer.parseInt(paramMap.get("player_id")), paramMap.get("reason"));
-
-            if (isSuccessInsert) {
-                isUpdateSuccess = playerDao.updateStatus(Integer.parseInt(paramMap.get("player_id")));
-            } else {
-                connection.rollback();
-            }
+        if (!(paramMap.containsKey("playerId") && paramMap.containsKey("reason"))) {
+            System.out.println("쿼리 파라미터를 제대로 입력해주세요");
+            return;
         }
 
-        if (isUpdateSuccess) {
-            connection.commit();
-            return true;
-        }
+        //TODO try catch
+        int playerId = Integer.parseInt(paramMap.get("playerId"));
+        String reason = paramMap.get("reason");
 
-        connection.rollback();
+        QueryExecutionStatus result = outPlayerService.addOutPlayer(playerId, reason);
+        System.out.println(result.toString());
 
-        System.out.println("올바르지 않은 요청입니다.");
-        return false;
+
     }
 }

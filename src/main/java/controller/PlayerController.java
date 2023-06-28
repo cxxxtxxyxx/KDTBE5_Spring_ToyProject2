@@ -55,17 +55,12 @@ public class PlayerController {
             return;
         }
 
+        // TODO Try Catch로 에러 처리
+        int teamId = Integer.parseInt(paramMap.get("teamId"));
 
-        try {
-            int teamId = Integer.parseInt(paramMap.get("teamId"));
-            List<PlayerFindResponseDto> playerList = playerDao.findAll(teamId);
-            System.out.println("playerList = " + playerList);
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            return;
-        }
+        List<PlayerFindResponseDto> result = playerService.findAllPlayer(teamId);
 
-
+        System.out.println(result);
     }
 
 }
