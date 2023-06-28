@@ -2,6 +2,7 @@ package model.player;
 
 import db.DBConnection;
 import model.stadium.Stadium;
+import util.QueryExecutionStatus;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class PlayerDao {
     public PlayerDao() {
     }
 
-    public boolean add(int teamId, String name, Position position) {
+    public QueryExecutionStatus add(int teamId, String name, Position position) {
         String query = "insert into player (team_id, name, position) values (?, ?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -27,11 +28,10 @@ public class PlayerDao {
             statement.setString(2, name);
             statement.setString(3, position.name());
             statement.executeUpdate();
-            System.out.println("Player 잘들어감");
-            return true;
+            return QueryExecutionStatus.SUCCESS;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
+            return QueryExecutionStatus.FAIL;
         }
     }
 
@@ -70,17 +70,15 @@ public class PlayerDao {
 
     }
 
-    public boolean updateStatus(int playerId) {
+    public QueryExecutionStatus updateStatus(int playerId) {
         String query = "update player set team_id = null where id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, playerId);
             statement.executeUpdate();
-            System.out.println("Player Update 성공");
-            return true;
+            return QueryExecutionStatus.SUCCESS;
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            return false;
+            return QueryExecutionStatus.FAIL;
         }
 
     }

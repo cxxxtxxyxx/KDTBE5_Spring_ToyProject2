@@ -29,10 +29,10 @@ public class StadiumDao {
             statement.setString(1, name);
             statement.executeUpdate();
             System.out.println("잘들어감");
-            return true;
+            return QueryExecutionStatus.SUCCESS;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
+            return QueryExecutionStatus.FAIL;
         }
     }
 

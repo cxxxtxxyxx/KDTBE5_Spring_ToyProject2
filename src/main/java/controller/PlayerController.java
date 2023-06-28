@@ -8,39 +8,49 @@ import model.player.PlayerFindResponseDto;
 import model.player.Position;
 import model.team.Team;
 import model.team.TeamDao;
+import service.PlayerService;
+import util.QueryExecutionStatus;
 
 import java.util.List;
 import java.util.Map;
 
 @Controller
 public class PlayerController {
-    private final PlayerDao playerDao = new PlayerDao();
-    private final TeamDao teamDao = new TeamDao();
+    private final PlayerService playerService = PlayerService.getInstance();
+
 
     @RequestMapping(uri = "선수등록")
-    public boolean addPlayer(Map<String, String> paramMap) {
+    public void addPlayer(Map<String, String> paramMap) {
 
         if (paramMap == null) {
             System.out.println("올바르지 않은 요청입니다.");
-            return false;
+            return;
         }
 
-        Team team = teamDao.findById(Integer.parseInt(paramMap.get("team_id")));
+        // TODO Try Catch로 에러 처리
+        int teamId = Integer.parseInt(paramMap.get("team_id"));
+
+        Team team = playerService.findByTeamId(teamId);
 
         if (team == null) {
-            return false;
+            System.out.println("존재하지 않는 팀입니다.");
+            return;
         }
 
-        if (paramMap.containsKey("team_id") && paramMap.containsKey("name") && paramMap.containsKey("position")) {
-            Position position = Position.findByName(paramMap.get("position"));
-            if (position == null) {
-                return false;
-            }
-            return playerDao.add(Integer.parseInt(paramMap.get("team_id")), paramMap.get("name"), position);
+        if (!paramMap.containsKey("team_id") || !paramMap.containsKey("name") || !paramMap.containsKey("position")) {
+            System.out.println("올바르지 않은 쿼리파라미터 입니다.");
         }
 
-        System.out.println("올바르지 않은 요청입니다.");
-        return false;
+        Position position = Position.findByName(paramMap.get("position"));
+        String name = paramMap.get("name");
+
+        if (position == null) {
+            System.out.println("존재하지 않는 포지션입니다.");
+            return;
+        }
+
+        QueryExecutionStatus result = playerService.addPlayer(teamId, name, position);
+        System.out.println(result);
     }
 
     @RequestMapping(uri = "선수목록")

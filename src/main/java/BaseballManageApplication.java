@@ -82,6 +82,8 @@ public class BaseballManageApplication {
         for (Class<Object> cls : classes) {
             if (cls.isAnnotationPresent(Controller.class)) {
                 Object instance = cls.newInstance();
+//                Method getInstance = cls.getMethod("getInstance");
+//                Object instance = getInstance.invoke(null);
                 System.out.println("instance = " + instance);
                 Method[] methods = cls.getDeclaredMethods();
 
