@@ -2,6 +2,8 @@ package model.stadium;
 
 import db.DBConnection;
 import lombok.Getter;
+import model.player.PlayerDao;
+import util.QueryExecutionStatus;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -10,9 +12,17 @@ import java.util.List;
 @Getter
 public class StadiumDao {
     // TODO 싱글톤 객체로 만들기
+    private final static StadiumDao stadiumDao = new StadiumDao();
     private Connection connection = DBConnection.getConnection();
 
-    public boolean add(String name) {
+    public static StadiumDao getInstance(){
+        return stadiumDao;
+    }
+
+    public StadiumDao() {
+    }
+
+    public QueryExecutionStatus add(String name) {
         String query = "insert into stadium (name) values(?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {

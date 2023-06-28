@@ -1,7 +1,9 @@
 package model.team;
 
 import db.DBConnection;
+import model.player.PlayerDao;
 import model.player.Position;
+import util.QueryExecutionStatus;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +13,15 @@ import java.util.Map;
 
 public class TeamDao {
 
+    private final static TeamDao teamDao = new TeamDao();
     private Connection connection = DBConnection.getConnection();
+
+    public static TeamDao getInstance(){
+        return teamDao;
+    }
+
+    public TeamDao() {
+    }
 
     // TODO stadiumDao.findById로 Stadium이 존재할 때만 로직 실행
     // 없으면 예외 처리

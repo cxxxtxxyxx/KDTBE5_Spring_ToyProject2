@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class BaseballController {
+public class StadiumController {
 
     // TODO 싱글톤 객체로 만들기
     private final StadiumDao stadiumDao = new StadiumDao();
@@ -35,9 +35,6 @@ public class BaseballController {
 
     @RequestMapping(uri = "야구장목록")
     public List<Stadium> stadiumList(){
-        System.out.println("BaseballController.stadiumList");
-        List<Stadium> all = stadiumDao.findAll();
-        System.out.println("all = " + all);
-        return all;
+        return stadiumService.findAllStadium();
     }
 }

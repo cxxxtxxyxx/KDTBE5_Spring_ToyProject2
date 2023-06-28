@@ -8,8 +8,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PlayerDao {
+
+    private final static PlayerDao playerDAO = new PlayerDao();
     private Connection connection = DBConnection.getConnection();
 
+    public static PlayerDao getInstance(){
+        return playerDAO;
+    }
+
+    public PlayerDao() {
+    }
 
     public boolean add(int teamId, String name, Position position) {
         String query = "insert into player (team_id, name, position) values (?, ?, ?)";
