@@ -19,25 +19,29 @@ public class TeamController {
     private final TeamService teamService = TeamService.getInstance();
 
     @RequestMapping(uri = "팀등록")
-    public boolean addTeam(Map<String, String> paramMap) {
+    public void addTeam(Map<String, String> paramMap) {
 
         if (paramMap == null) {
             System.out.println("올바르지 않은 요청입니다.");
-            return false;
+            return;
         }
 
-        Stadium stadium = stadiumDao.findById(Integer.parseInt(paramMap.get("stadium_id")));
-
-        if (stadium == null) {
-            return false;
+        if (!(paramMap.containsKey("stadiumId") && paramMap.containsKey("name"))) {
+            return;
         }
 
-        if (paramMap.containsKey("stadium_id") && paramMap.containsKey("name")) {
-            return teamDao.add(Integer.parseInt(paramMap.get("stadium_id")), paramMap.get("name"));
+        // TODO try catch
+        int stadiumId = Integer.parseInt(paramMap.get("stadiumId"));
+        String stadiumName = paramMap.get("name");
+
+        Stadium findStadium = teamService.findStadiumById(stadiumId);
+
+        if (findStadium == null) {
+            return;
         }
 
-        System.out.println("올바르지 않은 요청입니다.");
-        return false;
+        QueryExecutionStatus result = teamService.addTeam(stadiumId, stadiumName);
+        System.out.println();
     }
 
     @RequestMapping(uri = "팀목록")

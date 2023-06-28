@@ -25,7 +25,7 @@ public class TeamDao {
 
     // TODO stadiumDao.findById로 Stadium이 존재할 때만 로직 실행
     // 없으면 예외 처리
-    public boolean add(int stadiumId, String name) {
+    public QueryExecutionStatus add(int stadiumId, String name) {
         String query = "insert into team (stadium_id, name) values(?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -33,10 +33,10 @@ public class TeamDao {
             statement.setString(2, name);
             statement.executeUpdate();
             System.out.println("팀 잘들어감");
-            return true;
+            return QueryExecutionStatus.SUCCESS;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
+            return QueryExecutionStatus.FAIL;
         }
     }
 

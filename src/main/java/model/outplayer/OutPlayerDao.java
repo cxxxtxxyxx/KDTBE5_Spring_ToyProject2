@@ -3,26 +3,34 @@ package model.outplayer;
 import db.DBConnection;
 import model.player.PlayerFindResponseDto;
 import model.player.Position;
+import util.QueryExecutionStatus;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class OutPlayerDao {
+    private final static OutPlayerDao outPlayerDao = new OutPlayerDao();
     private Connection connection = DBConnection.getConnection();
 
-    public boolean add(int playerId, String reason) {
+    public static OutPlayerDao getInstance() {
+        return outPlayerDao;
+    }
+
+    private OutPlayerDao() {
+    }
+
+    public QueryExecutionStatus add(int playerId, String reason) {
         String query = "insert into out_player (player_id, reason) values (?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, playerId);
             statement.setString(2, reason);
             statement.executeUpdate();
-            System.out.println("out Player 잘들어감");
-            return true;
+            return QueryExecutionStatus.SUCCESS;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            return false;
+            return QueryExecutionStatus.FAIL;
         }
     }
 
