@@ -18,6 +18,15 @@ public class TeamController {
 
     private final TeamService teamService = TeamService.getInstance();
 
+    private static final TeamController teamController = new TeamController();
+
+    public static TeamController getInstance(){
+        return teamController;
+    }
+
+    private TeamController() {
+    }
+
     @RequestMapping(uri = "팀등록")
     public void addTeam(Map<String, String> paramMap) {
 
