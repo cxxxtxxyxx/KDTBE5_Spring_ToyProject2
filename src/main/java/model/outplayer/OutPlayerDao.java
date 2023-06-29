@@ -1,7 +1,6 @@
 package model.outplayer;
 
 import db.DBConnection;
-import model.player.PlayerFindResponseDto;
 import model.player.Position;
 import util.QueryExecutionStatus;
 
@@ -10,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OutPlayerDao {
+
     private final static OutPlayerDao outPlayerDao = new OutPlayerDao();
+
     private Connection connection = DBConnection.getConnection();
 
     public static OutPlayerDao getInstance() {

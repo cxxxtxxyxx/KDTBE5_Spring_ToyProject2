@@ -2,7 +2,6 @@ package model.stadium;
 
 import db.DBConnection;
 import lombok.Getter;
-import model.player.PlayerDao;
 import util.QueryExecutionStatus;
 
 import java.sql.*;
@@ -27,7 +26,6 @@ public class StadiumDao {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, name);
             statement.executeUpdate();
-            System.out.println("잘들어감");
             return QueryExecutionStatus.SUCCESS;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -47,7 +45,6 @@ public class StadiumDao {
                     String name = resultSet.getString("name");
                     Timestamp createdAt = resultSet.getTimestamp("created_at");
 
-                    System.out.println("조회 성공");
                     return Stadium.builder()
                             .id(id)
                             .name(name)

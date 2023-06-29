@@ -12,6 +12,7 @@ import java.util.List;
 public class TeamService {
 
     private final static TeamService teamService = new TeamService();
+
     private final StadiumDao stadiumDao = new StadiumDao();
     private final TeamDao teamDao = new TeamDao();
 
@@ -20,7 +21,6 @@ public class TeamService {
     }
 
     public TeamService() {
-
     }
 
     public List<TeamResponseDto> findAllTeam() {
@@ -38,7 +38,6 @@ public class TeamService {
         }
 
         return teamDao.add(stadiumId, stadiumName);
-
     }
 
     public List<String> findByTeamNames() {

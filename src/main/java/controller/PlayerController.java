@@ -2,12 +2,9 @@ package controller;
 
 import core.Controller;
 import core.RequestMapping;
-import model.player.Player;
-import model.player.PlayerDao;
 import model.player.PlayerFindResponseDto;
 import model.player.Position;
 import model.team.Team;
-import model.team.TeamDao;
 import service.PlayerService;
 import util.QueryExecutionStatus;
 
@@ -79,7 +76,7 @@ public class PlayerController {
         }
 
         int teamId;
-        try{
+        try {
             teamId = Integer.parseInt(paramMap.get("teamId"));
         } catch (NumberFormatException e) {
             System.out.println("teamId는 숫자로 입력해 주세요.");
@@ -89,5 +86,4 @@ public class PlayerController {
 
         System.out.println(result);
     }
-
 }

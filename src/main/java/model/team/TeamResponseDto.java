@@ -17,5 +17,4 @@ public class TeamResponseDto {
     String teamName;
     String stadiumName;
     Timestamp teamCreatedAt;
-
 }

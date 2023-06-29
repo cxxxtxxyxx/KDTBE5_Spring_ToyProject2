@@ -12,6 +12,7 @@ import java.util.List;
 public class PlayerService {
 
     private final static PlayerService playerService = new PlayerService();
+
     private final PlayerDao playerDao = new PlayerDao();
     private final TeamDao teamDao = new TeamDao();
 

@@ -10,10 +10,11 @@ import util.QueryExecutionStatus;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Map;
 
 public class OutPlayerService {
+
     private final static OutPlayerService outPlayerService = new OutPlayerService();
+
     private final OutPlayerDao outPlayerDao = OutPlayerDao.getInstance();
     private final PlayerDao playerDao = PlayerDao.getInstance();
     private Connection connection = DBConnection.getConnection();
@@ -24,7 +25,6 @@ public class OutPlayerService {
 
     private OutPlayerService() {
     }
-
 
     public QueryExecutionStatus addOutPlayer(int playerId, Reason reason) {
 

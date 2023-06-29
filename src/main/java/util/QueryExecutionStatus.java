@@ -1,7 +1,6 @@
 package util;
 
 import lombok.Getter;
-import lombok.ToString;
 
 @Getter
 public enum QueryExecutionStatus {
