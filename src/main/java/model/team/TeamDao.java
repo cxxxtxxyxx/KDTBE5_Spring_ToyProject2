@@ -23,8 +23,6 @@ public class TeamDao {
     public TeamDao() {
     }
 
-    // TODO stadiumDao.findById로 Stadium이 존재할 때만 로직 실행
-    // 없으면 예외 처리
     public QueryExecutionStatus add(int stadiumId, String name) {
         String query = "insert into team (stadium_id, name) values(?, ?)";
 

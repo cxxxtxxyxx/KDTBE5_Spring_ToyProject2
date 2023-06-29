@@ -36,9 +36,13 @@ public class PlayerController {
             return;
         }
 
-        // TODO Try Catch로 에러 처리
-        int teamId = Integer.parseInt(paramMap.get("teamId"));
-
+        int teamId;
+        try {
+            teamId = Integer.parseInt(paramMap.get("teamId"));
+        } catch (NumberFormatException e) {
+            System.out.println("teamId는 숫자로 입력해 주세요.");
+            return;
+        }
         Team team = playerService.findByTeamId(teamId);
 
         if (team == null) {
@@ -74,9 +78,13 @@ public class PlayerController {
             return;
         }
 
-        // TODO Try Catch로 에러 처리
-        int teamId = Integer.parseInt(paramMap.get("teamId"));
-
+        int teamId;
+        try{
+            teamId = Integer.parseInt(paramMap.get("teamId"));
+        } catch (NumberFormatException e) {
+            System.out.println("teamId는 숫자로 입력해 주세요.");
+            return;
+        }
         List<PlayerFindResponseDto> result = playerService.findAllPlayer(teamId);
 
         System.out.println(result);

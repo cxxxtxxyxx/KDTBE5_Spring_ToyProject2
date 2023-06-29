@@ -61,8 +61,13 @@ public class OutPlayerController {
             return;
         }
 
-        //TODO try catch
-        int playerId = Integer.parseInt(paramMap.get("playerId"));
+        int playerId;
+        try {
+            playerId = Integer.parseInt(paramMap.get("playerId"));
+        } catch (NumberFormatException e) {
+            System.out.println("playerId는 숫자로 입력해 주세요.");
+            return;
+        }
         Reason reason = Reason.findByName(paramMap.get("reason"));
 
         QueryExecutionStatus result = outPlayerService.addOutPlayer(playerId, reason);
