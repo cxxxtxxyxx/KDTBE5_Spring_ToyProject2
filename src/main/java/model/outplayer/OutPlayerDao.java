@@ -20,12 +20,12 @@ public class OutPlayerDao {
     private OutPlayerDao() {
     }
 
-    public QueryExecutionStatus add(int playerId, String reason) {
+    public QueryExecutionStatus add(int playerId, Reason reason) {
         String query = "insert into out_player (player_id, reason) values (?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, playerId);
-            statement.setString(2, reason);
+            statement.setString(2, reason.getName());
             statement.executeUpdate();
             return QueryExecutionStatus.SUCCESS;
         } catch (SQLException e) {
@@ -51,7 +51,7 @@ public class OutPlayerDao {
 
                     OutPlayerResponseDto result = OutPlayerResponseDto.builder()
                             .name(name)
-                            .reason(reason)
+                            .reason(Reason.findByName(reason))
                             .position(position)
                             .createdAt(createdAt)
                             .build();
