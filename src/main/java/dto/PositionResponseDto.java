@@ -1,4 +1,4 @@
-package model.team;
+package dto;
 
 import lombok.Builder;
 import lombok.ToString;

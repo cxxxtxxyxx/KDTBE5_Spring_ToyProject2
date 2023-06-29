@@ -2,9 +2,9 @@ package service;
 
 import model.stadium.Stadium;
 import model.stadium.StadiumDao;
-import model.team.PositionResponseDto;
+import dto.PositionResponseDto;
 import model.team.TeamDao;
-import model.team.TeamResponseDto;
+import dto.TeamResponseDto;
 import util.QueryExecutionStatus;
 
 import java.util.List;

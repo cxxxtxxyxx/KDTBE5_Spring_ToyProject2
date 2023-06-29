@@ -2,7 +2,7 @@ package controller;
 
 import core.Controller;
 import core.RequestMapping;
-import model.player.PlayerFindResponseDto;
+import dto.PlayerFindResponseDto;
 import model.player.Position;
 import model.team.Team;
 import service.PlayerService;

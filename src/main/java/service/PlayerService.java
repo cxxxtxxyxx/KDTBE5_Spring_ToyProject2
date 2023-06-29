@@ -1,7 +1,7 @@
 package service;
 
 import model.player.PlayerDao;
-import model.player.PlayerFindResponseDto;
+import dto.PlayerFindResponseDto;
 import model.player.Position;
 import model.team.Team;
 import model.team.TeamDao;

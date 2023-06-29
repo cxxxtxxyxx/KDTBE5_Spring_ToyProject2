@@ -2,7 +2,7 @@ package controller;
 
 import core.Controller;
 import core.RequestMapping;
-import model.outplayer.OutPlayerResponseDto;
+import dto.OutPlayerResponseDto;
 import model.outplayer.Reason;
 import service.OutPlayerService;
 import util.ErrorMessage;

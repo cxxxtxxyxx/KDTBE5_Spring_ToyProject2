@@ -2,7 +2,7 @@ package service;
 
 import db.DBConnection;
 import model.outplayer.OutPlayerDao;
-import model.outplayer.OutPlayerResponseDto;
+import dto.OutPlayerResponseDto;
 import model.outplayer.Reason;
 import model.player.PlayerDao;
 import util.QueryExecutionStatus;
