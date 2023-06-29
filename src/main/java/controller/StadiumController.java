@@ -27,11 +27,12 @@ public class StadiumController {
     public void addStadium(Map<String, String> paramMap) {
 
         if (paramMap == null) {
-            System.out.println("올바르지 않은 요청입니다.");
+            System.out.println(ErrorMessage.NOT_FOUND_PARAMETER);
             return;
         }
 
         if (!paramMap.containsKey("name")) {
+            System.out.println(ErrorMessage.INVALID_PARAMETER);
             return;
         }
 

@@ -5,6 +5,7 @@ import core.RequestMapping;
 import model.outplayer.OutPlayerResponseDto;
 import model.outplayer.Reason;
 import service.OutPlayerService;
+import util.ErrorMessage;
 import util.QueryExecutionStatus;
 
 import java.sql.SQLException;
@@ -38,12 +39,12 @@ public class OutPlayerController {
     @RequestMapping(uri = "퇴출등록")
     public void addOutPlayer(Map<String, String> paramMap) throws SQLException {
         if (paramMap == null) {
-            System.out.println("올바르지 않은 요청입니다.");
+            System.out.println(ErrorMessage.NOT_FOUND_PARAMETER);
             return;
         }
 
         if (!(paramMap.containsKey("playerId") && paramMap.containsKey("reason"))) {
-            System.out.println("쿼리 파라미터를 제대로 입력해주세요");
+            System.out.println(ErrorMessage.INVALID_PARAMETER);
             return;
         }
 
@@ -51,7 +52,7 @@ public class OutPlayerController {
         try {
             playerId = Integer.parseInt(paramMap.get("playerId"));
         } catch (NumberFormatException e) {
-            System.out.println("playerId는 숫자로 입력해 주세요.");
+            System.out.println(ErrorMessage.INVALID_NUMBER_FORMAT);
             return;
         }
         Reason reason = Reason.findByName(paramMap.get("reason"));

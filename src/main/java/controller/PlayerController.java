@@ -29,7 +29,7 @@ public class PlayerController {
     public void addPlayer(Map<String, String> paramMap) {
 
         if (paramMap == null) {
-            System.out.println("올바르지 않은 요청입니다.");
+            System.out.println(ErrorMessage.NOT_FOUND_PARAMETER);
             return;
         }
 
@@ -37,25 +37,25 @@ public class PlayerController {
         try {
             teamId = Integer.parseInt(paramMap.get("teamId"));
         } catch (NumberFormatException e) {
-            System.out.println("teamId는 숫자로 입력해 주세요.");
+            System.out.println(ErrorMessage.INVALID_NUMBER_FORMAT);
             return;
         }
         Team team = playerService.findByTeamId(teamId);
 
         if (team == null) {
-            System.out.println("존재하지 않는 팀입니다.");
+            System.out.println(ErrorMessage.BAD_REQUEST);
             return;
         }
 
         if (!paramMap.containsKey("teamId") || !paramMap.containsKey("name") || !paramMap.containsKey("position")) {
-            System.out.println("올바르지 않은 쿼리파라미터 입니다.");
+            System.out.println(ErrorMessage.NOT_FOUND_PARAMETER);
         }
 
         Position position = Position.findByName(paramMap.get("position"));
         String name = paramMap.get("name");
 
         if (position == null) {
-            System.out.println("존재하지 않는 포지션입니다.");
+            System.out.println(ErrorMessage.BAD_REQUEST);
             return;
         }
 
@@ -66,12 +66,12 @@ public class PlayerController {
     @RequestMapping(uri = "선수목록")
     public void findAll(Map<String, String> paramMap) {
         if (paramMap == null) {
-            System.out.println("PlayerController.findAll, 쿼리 파라미터를 입력해주세요");
+            System.out.println(ErrorMessage.NOT_FOUND_PARAMETER);
             return;
         }
 
         if (!paramMap.containsKey("teamId")) {
-            System.out.println("PlayerController.findAll, teamId 쿼리 파라미터를 입력해주세요");
+            System.out.println(ErrorMessage.INVALID_PARAMETER);
             return;
         }
 
@@ -79,7 +79,7 @@ public class PlayerController {
         try {
             teamId = Integer.parseInt(paramMap.get("teamId"));
         } catch (NumberFormatException e) {
-            System.out.println("teamId는 숫자로 입력해 주세요.");
+            System.out.println(ErrorMessage.INVALID_NUMBER_FORMAT);
             return;
         }
         List<PlayerFindResponseDto> result = playerService.findAllPlayer(teamId);
