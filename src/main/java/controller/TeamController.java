@@ -39,8 +39,13 @@ public class TeamController {
             return;
         }
 
-        // TODO try catch
-        int stadiumId = Integer.parseInt(paramMap.get("stadiumId"));
+        int stadiumId;
+        try {
+            stadiumId = Integer.parseInt(paramMap.get("stadiumId"));
+        } catch (NumberFormatException e) {
+            System.out.println("stadiumId는 숫자로 입력해 주세요");
+            return;
+        }
         String stadiumName = paramMap.get("name");
 
         Stadium findStadium = teamService.findStadiumById(stadiumId);
@@ -50,7 +55,7 @@ public class TeamController {
         }
 
         QueryExecutionStatus result = teamService.addTeam(stadiumId, stadiumName);
-        System.out.println();
+        System.out.println(result);
     }
 
     @RequestMapping(uri = "팀목록")
