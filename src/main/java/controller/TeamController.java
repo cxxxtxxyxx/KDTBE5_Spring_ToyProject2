@@ -46,6 +46,12 @@ public class TeamController {
             System.out.println(ErrorMessage.INVALID_NUMBER_FORMAT);
             return;
         }
+
+        if (stadiumId < 1) {
+            System.out.println(ErrorMessage.INVALID_RANGE);
+            return;
+        }
+
         String stadiumName = paramMap.get("name");
 
         Stadium findStadium = teamService.findStadiumById(stadiumId);

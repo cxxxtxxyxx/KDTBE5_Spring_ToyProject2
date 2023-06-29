@@ -55,6 +55,12 @@ public class OutPlayerController {
             System.out.println(ErrorMessage.INVALID_NUMBER_FORMAT);
             return;
         }
+
+        if (playerId < 1) {
+            System.out.println(ErrorMessage.INVALID_RANGE);
+            return;
+        }
+
         Reason reason = Reason.findByName(paramMap.get("reason"));
 
         QueryExecutionStatus result = outPlayerService.addOutPlayer(playerId, reason);

@@ -41,6 +41,12 @@ public class PlayerController {
             System.out.println(ErrorMessage.INVALID_NUMBER_FORMAT);
             return;
         }
+
+        if (teamId < 1) {
+            System.out.println(ErrorMessage.INVALID_RANGE);
+            return;
+        }
+
         Team team = playerService.findByTeamId(teamId);
 
         if (team == null) {
@@ -83,6 +89,12 @@ public class PlayerController {
             System.out.println(ErrorMessage.INVALID_NUMBER_FORMAT);
             return;
         }
+
+        if (teamId < 1) {
+            System.out.println(ErrorMessage.INVALID_RANGE);
+            return;
+        }
+
         List<PlayerFindResponseDto> result = playerService.findAllPlayer(teamId);
 
         System.out.println(result);
