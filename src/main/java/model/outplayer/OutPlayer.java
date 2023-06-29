@@ -8,6 +8,6 @@ import java.sql.Timestamp;
 public class OutPlayer {
     private int id;
     private int playerId;
-    private String reason;
+    private Reason reason;
     private Timestamp createdAt;
 }

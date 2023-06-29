@@ -3,6 +3,7 @@ package service;
 import db.DBConnection;
 import model.outplayer.OutPlayerDao;
 import model.outplayer.OutPlayerResponseDto;
+import model.outplayer.Reason;
 import model.player.PlayerDao;
 import util.QueryExecutionStatus;
 
@@ -25,7 +26,7 @@ public class OutPlayerService {
     }
 
 
-    public QueryExecutionStatus addOutPlayer(int playerId, String reason) {
+    public QueryExecutionStatus addOutPlayer(int playerId, Reason reason) {
 
         try {
             connection.setAutoCommit(false);

@@ -13,7 +13,7 @@ public class OutPlayerResponseDto {
 
     private String name;
     private Position position;
-    private String reason;
+    private Reason reason;
     private Timestamp createdAt;
 
 }

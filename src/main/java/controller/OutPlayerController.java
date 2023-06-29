@@ -3,6 +3,7 @@ package controller;
 import core.Controller;
 import core.RequestMapping;
 import model.outplayer.OutPlayerResponseDto;
+import model.outplayer.Reason;
 import service.OutPlayerService;
 import util.QueryExecutionStatus;
 
@@ -62,7 +63,7 @@ public class OutPlayerController {
 
         //TODO try catch
         int playerId = Integer.parseInt(paramMap.get("playerId"));
-        String reason = paramMap.get("reason");
+        Reason reason = Reason.findByName(paramMap.get("reason"));
 
         QueryExecutionStatus result = outPlayerService.addOutPlayer(playerId, reason);
         System.out.println(result.toString());
