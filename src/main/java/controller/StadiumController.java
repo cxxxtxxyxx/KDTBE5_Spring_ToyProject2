@@ -44,7 +44,11 @@ public class StadiumController {
     }
 
     @RequestMapping(uri = "야구장목록")
-    public List<Stadium> stadiumList(){
-        return stadiumService.findAllStadium();
+    public void stadiumList(){
+        List<Stadium> result = stadiumService.findAllStadium();
+
+        for (Stadium stadium : result) {
+            System.out.println("stadium = " + stadium);
+        }
     }
 }
