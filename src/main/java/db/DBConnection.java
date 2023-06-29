@@ -1,8 +1,9 @@
 package db;
 
-import org.h2.tools.Server;
-
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class DBConnection {
 
@@ -13,7 +14,7 @@ public class DBConnection {
     }
 
     private static Connection getInstance() {
-        // MySQL 연결 정보
+        // h2 연결 정보
         String url = "jdbc:h2:~/mfa;MODE=MYSQL";
         String username = "sa";
         String password = "";
@@ -33,10 +34,8 @@ public class DBConnection {
 
     private static void initTable(Connection connection) throws SQLException {
         dropTable(connection);
-        // stadium 테이블 생성
         createTable(connection);
         initData(connection);
-
     }
 
     private static void initData(Connection connection) throws SQLException {
@@ -47,7 +46,6 @@ public class DBConnection {
         statement = connection.createStatement();
         insertStadiumData = "insert into stadium (name) values('부산야구장')";
         statement.executeUpdate(insertStadiumData);
-
 
         statement = connection.createStatement();
         String insertTeamData = "insert into team (stadium_id, name) values('1', '두산')";
@@ -101,14 +99,7 @@ public class DBConnection {
                 "    UNIQUE INDEX `name_UNIQUE` (`name` ASC),\n" +
                 "    FOREIGN KEY (`stadium_id`) REFERENCES `stadium` (`id`)\n" +
                 ")";
-//                "    INDEX `fk_stadium_team_idx_idx` (`stadium_id` ASC) VISIBLE,\n" +
-//                "    CONSTRAINT `fk_stadium_team_idx`\n" +
-
-//                "    \n" +
-//                "    ON DELETE NO ACTION\n" +
-
         statement.executeUpdate(createTeamTable);
-
 
         statement = connection.createStatement();
         String createPlayerTable = "CREATE TABLE IF NOT EXISTS `player` (\n" +
@@ -142,12 +133,10 @@ public class DBConnection {
                 "    ON DELETE NO ACTION\n" +
                 "    ON UPDATE NO ACTION)";
         statement.executeUpdate(createOutPlayerTable);
-
     }
 
     private static void dropTable(Connection connection) throws SQLException {
         Statement statement = connection.createStatement();
-
 
         statement = connection.createStatement();
         String dropOutPlayerTable = "DROP TABLE if exists out_player";
@@ -160,15 +149,8 @@ public class DBConnection {
         String dropTeamTable = "DROP TABLE if exists team";
         statement.executeUpdate(dropTeamTable);
 
-
         statement = connection.createStatement();
         String dropStadiumTable = "DROP TABLE if exists stadium";
         statement.executeUpdate(dropStadiumTable);
-
-
-
-
-
-
     }
 }

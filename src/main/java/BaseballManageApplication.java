@@ -3,7 +3,6 @@ import core.RequestMapping;
 import db.DBConnection;
 
 import java.io.File;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.net.URL;
 import java.sql.Connection;
@@ -11,9 +10,10 @@ import java.util.*;
 
 public class BaseballManageApplication {
 
-    private static Scanner scanner = new Scanner(System.in);
+    private static final Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) throws Exception {
+
         Connection connection = DBConnection.getConnection();
 
         Set<Class<Object>> classes = componentScan("./controller");
@@ -27,33 +27,23 @@ public class BaseballManageApplication {
             String url = parsed[0];
             if (hasQueryParams(uri)) {
                 String queryParamURL = parsed[1];
-
                 Map<String, String> queryParams = getQueryParams(queryParamURL);
 
                 try {
                     findUri(classes, uri, queryParams);
                 } catch (RuntimeException e) {
+                    System.out.println(e.getMessage());
                     System.out.println("올바르지 않은 URL입니다.");
                 }
-
             } else {
                 try {
                     findUri(classes, url);
-
                 } catch (RuntimeException e) {
                     System.out.println(e.getMessage());
                     System.out.println("올바르지 않은 URL입니다.");
                 }
             }
-
-
-            // "?" 있으면으로 수정
-            // 없으면 그대로 매핑
-
-
         }
-
-
         connection.close();
     }
 
@@ -82,10 +72,8 @@ public class BaseballManageApplication {
         boolean isFind = false;
         for (Class<Object> cls : classes) {
             if (cls.isAnnotationPresent(Controller.class)) {
-//                Object instance = cls.newInstance();
                 Method getInstance = cls.getMethod("getInstance");
                 Object instance = getInstance.invoke(null);
-                System.out.println("instance = " + instance);
                 Method[] methods = cls.getDeclaredMethods();
 
                 for (Method mt : methods) {
@@ -93,15 +81,10 @@ public class BaseballManageApplication {
                     if (anno == null) {
                         continue;
                     }
-                    /*
-                    anno.uri() => 야구장등록
-                    uri => 야구장등록?name=잠실야구징
-                     */
-                    System.out.println("param anno.uri" + anno.uri());
+
                     if (uri.contains(anno.uri())) {
-//                    if (anno.uri().equals(uri)) {
                         isFind = true;
-                        mt.invoke(instance, new Object[]{paramMap});
+                        mt.invoke(instance, new Object[] { paramMap });
                     }
                 }
             }
@@ -114,27 +97,19 @@ public class BaseballManageApplication {
     public static void findUri(Set<Class<Object>> classes, String uri) throws Exception {
         boolean isFind = false;
         for (Class<Object> cls : classes) {
-            System.out.println("classes = " + classes);
-            System.out.println("cls = " + cls);
             if (cls.isAnnotationPresent(Controller.class)) {
                 Method getInstance = cls.getMethod("getInstance");
                 Object instance = getInstance.invoke(null);
-                System.out.println("instance = " + instance);
+
                 Method[] methods = cls.getDeclaredMethods();
 
                 for (Method mt : methods) {
                     RequestMapping anno = mt.getDeclaredAnnotation(RequestMapping.class);
-                    /*
-                    anno.uri() => 야구장등록
-                    uri => 야구장등록?name=잠실야구징
-                     */
                     if (anno == null) {
                         continue;
                     }
-                    System.out.println("anno.uri" + anno.uri());
-//                    if (uri.contains(anno.uri())) {
+
                     if (anno.uri().equals(uri)) {
-                        System.out.println("여기가 타나?");
                         isFind = true;
                         mt.invoke(instance);
                     }

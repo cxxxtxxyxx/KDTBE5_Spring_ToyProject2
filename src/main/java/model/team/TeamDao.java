@@ -24,13 +24,14 @@ public class TeamDao {
     }
 
     public QueryExecutionStatus add(int stadiumId, String name) {
+
         String query = "insert into team (stadium_id, name) values(?, ?)";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, stadiumId);
             statement.setString(2, name);
             statement.executeUpdate();
-            System.out.println("팀 잘들어감");
+
             return QueryExecutionStatus.SUCCESS;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -39,6 +40,7 @@ public class TeamDao {
     }
 
     public Team findById(int teamId) {
+
         String query = "select * from team where id = ?";
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -51,7 +53,6 @@ public class TeamDao {
                     String name = resultSet.getString("name");
                     Timestamp createdAt = resultSet.getTimestamp("created_at");
 
-                    System.out.println("팀 조회 성공");
                     return Team.builder()
                             .id(id)
                             .name(name)
@@ -65,7 +66,6 @@ public class TeamDao {
             System.out.println(e.getMessage());
             return null;
         }
-
         return null;
     }
 
@@ -118,7 +118,6 @@ public class TeamDao {
             System.out.println(e.getMessage());
             return null;
         }
-
     }
 
     public List<PositionResponseDto> findAllTeamJoinPlayerByPosition(List<String> teamNames) {
@@ -159,6 +158,5 @@ public class TeamDao {
             System.out.println(e.getMessage());
             return null;
         }
-
     }
 }

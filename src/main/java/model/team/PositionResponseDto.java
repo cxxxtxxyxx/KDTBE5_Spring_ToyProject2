@@ -9,6 +9,7 @@ import java.util.Map;
 @Builder
 @ToString
 public class PositionResponseDto {
+
     private Position position;
     private Map<String, String> teamTable;
 }

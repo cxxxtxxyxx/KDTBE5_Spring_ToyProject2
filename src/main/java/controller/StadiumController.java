@@ -31,7 +31,6 @@ public class StadiumController {
             return;
         }
 
-
         if (!paramMap.containsKey("name")) {
             return;
         }
@@ -40,9 +39,6 @@ public class StadiumController {
 
         QueryExecutionStatus result = stadiumService.addStadium(name);
         System.out.println(result);
-
-
-
     }
 
     @RequestMapping(uri = "야구장목록")

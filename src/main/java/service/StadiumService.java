@@ -9,8 +9,8 @@ import java.util.List;
 public class StadiumService {
 
     private final static StadiumService stadiumService = new StadiumService();
-    private final StadiumDao stadiumDao = new StadiumDao();
 
+    private final StadiumDao stadiumDao = new StadiumDao();
 
     public static StadiumService getInstance() {
         return stadiumService;
@@ -18,7 +18,6 @@ public class StadiumService {
 
     private StadiumService() {
     }
-
 
     public QueryExecutionStatus addStadium(String name) {
         return stadiumDao.add(name);

@@ -15,5 +15,4 @@ public class OutPlayerResponseDto {
     private Position position;
     private Reason reason;
     private Timestamp createdAt;
-
 }
