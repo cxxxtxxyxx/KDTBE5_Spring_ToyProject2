@@ -8,6 +8,7 @@ import model.team.PositionResponseDto;
 import model.team.TeamDao;
 import model.team.TeamResponseDto;
 import service.TeamService;
+import util.ErrorMessage;
 import util.QueryExecutionStatus;
 
 import java.util.List;
@@ -31,11 +32,12 @@ public class TeamController {
     public void addTeam(Map<String, String> paramMap) {
 
         if (paramMap == null) {
-            System.out.println("올바르지 않은 요청입니다.");
+            System.out.println(ErrorMessage.NOT_FOUND_PARAMETER);
             return;
         }
 
         if (!(paramMap.containsKey("stadiumId") && paramMap.containsKey("name"))) {
+            System.out.println(ErrorMessage.INVALID_PARAMETER);
             return;
         }
 
@@ -43,7 +45,7 @@ public class TeamController {
         try {
             stadiumId = Integer.parseInt(paramMap.get("stadiumId"));
         } catch (NumberFormatException e) {
-            System.out.println("stadiumId는 숫자로 입력해 주세요");
+            System.out.println(ErrorMessage.INVALID_NUMBER_FORMAT);
             return;
         }
         String stadiumName = paramMap.get("name");
@@ -51,6 +53,7 @@ public class TeamController {
         Stadium findStadium = teamService.findStadiumById(stadiumId);
 
         if (findStadium == null) {
+            System.out.println(ErrorMessage.BAD_REQUEST);
             return;
         }
 
@@ -71,7 +74,8 @@ public class TeamController {
 
         List<String> teamNames = teamService.findByTeamNames();
 
-        if (teamNames.isEmpty())
+        if (teamNames.isEmpty()) {
+            System.out.println(ErrorMessage.BAD_REQUEST);
             return;
 
         List<PositionResponseDto> result = teamService.findAllTeamByPosition(teamNames);
