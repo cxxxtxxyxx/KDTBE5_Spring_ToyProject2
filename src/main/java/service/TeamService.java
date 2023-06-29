@@ -32,6 +32,11 @@ public class TeamService {
     }
 
     public QueryExecutionStatus addTeam(int stadiumId, String stadiumName) {
+
+        if (stadiumDao.findById(stadiumId) == null) {
+            return QueryExecutionStatus.FAIL;
+        }
+
         return teamDao.add(stadiumId, stadiumName);
 
     }
