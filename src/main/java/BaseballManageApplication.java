@@ -1,9 +1,12 @@
 import core.Controller;
 import core.RequestMapping;
 import db.DBConnection;
+import util.ApplicationSymbol;
+import util.ErrorMessage;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.sql.Connection;
 import java.util.*;
@@ -14,40 +17,46 @@ public class BaseballManageApplication {
 
     public static void main(String[] args) throws Exception {
 
-        Connection connection = DBConnection.getConnection();
+        run();
+    }
 
-        Set<Class<Object>> classes = componentScan("./controller");
+    private static void run() throws Exception {
+        Connection connection = DBConnection.getConnection();
+        Set<Class<Object>> classes = componentScan(ApplicationSymbol.START_PACKAGE_POINT);
 
         while (true) {
             String uri = inputUri();
-            if (uri.equals("EXIT")) {
+            if (uri.equals(ApplicationSymbol.EXIT_COMMAND)) {
                 break;
             }
-            String[] parsed = uri.split("\\?");
-            String url = parsed[0];
-            if (hasQueryParams(uri)) {
-                String queryParamURL = parsed[1];
-                Map<String, String> queryParams = getQueryParams(queryParamURL);
 
-                try {
-                    findUri(classes, uri, queryParams);
-                } catch (RuntimeException e) {
-                    System.out.println(e.getMessage());
-                    System.out.println("올바르지 않은 URL입니다.");
-                }
-            } else {
-                try {
-                    findUri(classes, url);
-                } catch (RuntimeException e) {
-                    System.out.println(e.getMessage());
-                    System.out.println("올바르지 않은 URL입니다.");
-                }
+            Map<String, String> queryParams = getQueryParamMap(uri);
+
+            try {
+                findUri(classes, uri, queryParams);
+            } catch (RuntimeException e) {
+                System.out.println(e.getMessage());
+                System.out.println(ErrorMessage.NOT_FOUND);
             }
         }
+
         connection.close();
     }
 
-    private static Map<String, String> getQueryParams(String queryParams) {
+    private static String[] getParsedUri(String uri) {
+        return uri.split("\\?");
+    }
+
+    private static Map<String, String> getQueryParamMap(String uri) {
+        if (hasQueryParams(uri)) {
+            String queryParamURL = getParsedUri(uri)[1];
+            return parsedQueryParam(queryParamURL);
+        }
+
+        return null;
+    }
+
+    private static Map<String, String> parsedQueryParam(String queryParams) {
         HashMap<String, String> paramMap = new HashMap<>();
         String[] queryParam = queryParams.split("&");
         for (String query : queryParam) {
@@ -72,7 +81,7 @@ public class BaseballManageApplication {
         boolean isFind = false;
         for (Class<Object> cls : classes) {
             if (cls.isAnnotationPresent(Controller.class)) {
-                Method getInstance = cls.getMethod("getInstance");
+                Method getInstance = cls.getMethod(ApplicationSymbol.SINGLETON_METHOD_NAME);
                 Object instance = getInstance.invoke(null);
                 Method[] methods = cls.getDeclaredMethods();
 
@@ -84,56 +93,41 @@ public class BaseballManageApplication {
 
                     if (uri.contains(anno.uri())) {
                         isFind = true;
+                        if (paramMap == null) {
+                            mt.invoke(instance);
+                            continue;
+                        }
                         mt.invoke(instance, new Object[] { paramMap });
                     }
                 }
             }
         }
         if (!isFind) {
-            System.out.println("404 Not Found");
+            System.out.println(ErrorMessage.NOT_FOUND);
         }
     }
 
-    public static void findUri(Set<Class<Object>> classes, String uri) throws Exception {
-        boolean isFind = false;
-        for (Class<Object> cls : classes) {
-            if (cls.isAnnotationPresent(Controller.class)) {
-                Method getInstance = cls.getMethod("getInstance");
-                Object instance = getInstance.invoke(null);
-
-                Method[] methods = cls.getDeclaredMethods();
-
-                for (Method mt : methods) {
-                    RequestMapping anno = mt.getDeclaredAnnotation(RequestMapping.class);
-                    if (anno == null) {
-                        continue;
-                    }
-
-                    if (anno.uri().equals(uri)) {
-                        isFind = true;
-                        mt.invoke(instance);
-                    }
-                }
-            }
-        }
-        if (!isFind) {
-            System.out.println("404 Not Found");
-        }
-    }
-
-    public static Set<Class<Object>> componentScan(String pkg) throws Exception {
+    private static Set<Class<Object>> componentScan(String pkg) throws Exception {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-        Set<Class<Object>> classes = new HashSet<Class<Object>>();
+        return getComponentClasses(pkg, classLoader);
+    }
 
+    private static Set<Class<Object>> getComponentClasses(String pkg, ClassLoader classLoader) throws URISyntaxException, ClassNotFoundException {
+        Set<Class<Object>> classes = new HashSet<Class<Object>>();
         URL packageUrl = classLoader.getResource(pkg);
         File packageDirectory = new File(packageUrl.toURI());
         for (File file : Objects.requireNonNull(packageDirectory.listFiles())) {
             if (file.getName().endsWith(".class")) {
-                String className = pkg.substring(2) + "." + file.getName().replace(".class", "");
+                String className = getClassName(pkg, file);
                 Class<Object> cls = (Class<Object>) Class.forName(className);
                 classes.add(cls);
             }
         }
+
         return classes;
+    }
+
+    private static String getClassName(String pkg, File file) {
+        return pkg.substring(2) + "." + file.getName().replace(".class", "");
     }
 }
