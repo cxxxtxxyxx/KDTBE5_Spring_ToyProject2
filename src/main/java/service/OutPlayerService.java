@@ -30,8 +30,8 @@ public class OutPlayerService {
 
         try {
             connection.setAutoCommit(false);
-            QueryExecutionStatus updateResult = null;
 
+            QueryExecutionStatus updateResult = null;
             QueryExecutionStatus addResult = outPlayerDao.add(playerId, reason);
 
             if (addResult.equals(QueryExecutionStatus.FAIL)) {
@@ -48,11 +48,9 @@ public class OutPlayerService {
 
             connection.commit();
             return QueryExecutionStatus.SUCCESS;
-
         } catch (SQLException e) {
             return QueryExecutionStatus.FAIL;
         }
-
     }
 
     public List<OutPlayerResponseDto> findAllOutPlayer() {
