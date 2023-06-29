@@ -77,7 +77,7 @@ public class BaseballManageApplication {
         return scanner.nextLine();
     }
 
-    public static void findUri(Set<Class<Object>> classes, String uri, Map<String, String> paramMap) throws Exception {
+    private static void findUri(Set<Class<Object>> classes, String uri, Map<String, String> paramMap) throws Exception {
         boolean isFind = false;
         for (Class<Object> cls : classes) {
             if (cls.isAnnotationPresent(Controller.class)) {
