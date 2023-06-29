@@ -81,7 +81,7 @@ public class DBConnection {
         String createStadiumTable = "\n" +
                 "CREATE TABLE IF NOT EXISTS stadium  (\n" +
                 "  id int NOT NULL AUTO_INCREMENT,\n" +
-                "  name varchar(100) NOT NULL,\n" +
+                "  name varchar(100) NOT NULL UNIQUE,\n" +
                 "  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,\n" +
                 "  PRIMARY KEY (id)\n" +
                 ");";
