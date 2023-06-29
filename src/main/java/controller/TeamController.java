@@ -3,9 +3,7 @@ package controller;
 import core.Controller;
 import core.RequestMapping;
 import model.stadium.Stadium;
-import model.stadium.StadiumDao;
 import model.team.PositionResponseDto;
-import model.team.TeamDao;
 import model.team.TeamResponseDto;
 import service.TeamService;
 import util.ErrorMessage;
@@ -77,6 +75,7 @@ public class TeamController {
         if (teamNames.isEmpty()) {
             System.out.println(ErrorMessage.BAD_REQUEST);
             return;
+        }
 
         List<PositionResponseDto> result = teamService.findAllTeamByPosition(teamNames);
 

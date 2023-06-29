@@ -52,12 +52,10 @@ public class StadiumDao {
                             .build();
                 }
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
         }
-
         return null;
     }
 
@@ -80,10 +78,8 @@ public class StadiumDao {
 
                     stadiumList.add(stadium);
                 }
-
                 return stadiumList;
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;

@@ -1,7 +1,6 @@
 package model.team;
 
 import db.DBConnection;
-import model.player.PlayerDao;
 import model.player.Position;
 import util.QueryExecutionStatus;
 
@@ -45,7 +44,6 @@ public class TeamDao {
 
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, teamId);
-
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
                     int id = resultSet.getInt("id");
@@ -61,7 +59,6 @@ public class TeamDao {
                             .build();
                 }
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
@@ -91,10 +88,8 @@ public class TeamDao {
 
                     teamResponseDtoList.add(teamResponseDto);
                 }
-
                 return teamResponseDtoList;
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
@@ -150,10 +145,8 @@ public class TeamDao {
 
                     teamResponseDtoList.add(positionResponseDto);
                 }
-
                 return teamResponseDtoList;
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;

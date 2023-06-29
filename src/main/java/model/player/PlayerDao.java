@@ -38,10 +38,8 @@ public class PlayerDao {
         List<PlayerFindResponseDto> playerList = new ArrayList<>();
         String query = "select id, name, position, created_at from player where team_id = ?";
 
-
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, teamId);
-
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     int id = resultSet.getInt("id");
@@ -58,15 +56,12 @@ public class PlayerDao {
 
                     playerList.add(result);
                 }
-
                 return playerList;
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;
         }
-
     }
 
     public QueryExecutionStatus updateStatus(int playerId) {
@@ -79,6 +74,5 @@ public class PlayerDao {
         } catch (SQLException e) {
             return QueryExecutionStatus.FAIL;
         }
-
     }
 }

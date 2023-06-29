@@ -39,10 +39,7 @@ public class OutPlayerDao {
         List<OutPlayerResponseDto> outPlayerResponseDtoList = new ArrayList<>();
         String query = "select p.name, p.position, op.reason, op.created_at from player p left join out_player op on op.player_id = p.id";
 
-
         try (PreparedStatement statement = connection.prepareStatement(query)) {
-
-
             try (ResultSet resultSet = statement.executeQuery()) {
                 while (resultSet.next()) {
                     String name = resultSet.getString("name");
@@ -59,10 +56,8 @@ public class OutPlayerDao {
 
                     outPlayerResponseDtoList.add(result);
                 }
-
                 return outPlayerResponseDtoList;
             }
-
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             return null;

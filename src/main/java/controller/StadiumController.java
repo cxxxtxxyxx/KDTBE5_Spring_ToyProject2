@@ -4,6 +4,7 @@ import core.Controller;
 import core.RequestMapping;
 import model.stadium.Stadium;
 import service.StadiumService;
+import util.ErrorMessage;
 import util.QueryExecutionStatus;
 
 import java.util.List;
