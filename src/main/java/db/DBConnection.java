@@ -74,6 +74,11 @@ public class DBConnection {
         statement = connection.createStatement();
         String insertOutPlayerData = "insert into out_player (player_id, reason) values('1', '도박')";
         statement.executeUpdate(insertOutPlayerData);
+
+        statement = connection.createStatement();
+        insertPlayerData = "update player set team_id = null where id=1";
+        statement.executeUpdate(insertPlayerData);
+
     }
 
     private static void createTable(Connection connection) throws SQLException {
