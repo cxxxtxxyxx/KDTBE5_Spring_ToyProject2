@@ -36,6 +36,7 @@ public class OutPlayerService {
 
             if (addResult.equals(QueryExecutionStatus.FAIL)) {
                 connection.rollback();
+                connection.setAutoCommit(true);
                 return QueryExecutionStatus.FAIL;
             }
 
@@ -43,10 +44,12 @@ public class OutPlayerService {
 
             if (updateResult.equals(QueryExecutionStatus.FAIL)) {
                 connection.rollback();
+                connection.setAutoCommit(true);
                 return QueryExecutionStatus.FAIL;
             }
 
             connection.commit();
+            connection.setAutoCommit(true);
             return QueryExecutionStatus.SUCCESS;
         } catch (SQLException e) {
             return QueryExecutionStatus.FAIL;
