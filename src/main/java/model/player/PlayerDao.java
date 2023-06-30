@@ -26,7 +26,7 @@ public class PlayerDao {
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setInt(1, teamId);
             statement.setString(2, name);
-            statement.setString(3, position.name());
+            statement.setString(3, position.getName());
             statement.executeUpdate();
             return QueryExecutionStatus.SUCCESS;
         } catch (SQLException e) {
